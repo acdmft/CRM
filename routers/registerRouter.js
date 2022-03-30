@@ -6,7 +6,7 @@ const router = express.Router();
 // USER MODEL
 const User = require("../models/userModel");
 
-const secret = "4rtyf6OZjepB63NRwyNSkk0czzttHKjXNQk000qzd";
+const secret = process.env.SERVER_CODE;
 
 router.get("/", (req, res) => {
   res.json({ message: "register router" });
