@@ -28,5 +28,10 @@ mongoose
 app.use("/login", loginRouter);
 app.use("/register", registerRouter); 
 app.use("/contacts", contactRouter);
+// LOGOUT 
+app.get("/logout", (_req, res) => {
+  res.clearCookie("jwt");
+  res.json("You are logged out");
+});
 
 app.listen(8001, () => console.log("Listen port 8001..."));
