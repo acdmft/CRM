@@ -32,11 +32,7 @@ router.post("/add", isLoggedIn, async (req, res) => {
   let contact;
   try {
     contact = await Contact.create({
-      userId: req.data.id, 
-      name: req.body.name,
-      email: req.body.email,
-      description: req.body.description,
-      category: req.body.category,
+      userId: req.data.id, ...req.body
     });
   } catch (err) {
     return res.status(401).json({message: err});
@@ -48,6 +44,16 @@ router.post("/add", isLoggedIn, async (req, res) => {
     return res.json(401).json({message: err});
   }
   res.status(201).json({message: "Contact added", data: contact});
+});
+
+// UPDATE A CONTACT WITH PUT 
+router.put("/upd/:id", isLoggedIn, async (req, res) => {
+  try {
+    await Contact.findByIdAndUpdate(req.params.id, req.body);
+  } catch (err) {
+    return res.json({message: "Contact updated"});
+  }
+  res.json({message: "Contact updated"});
 });
 
 module.exports = router;
