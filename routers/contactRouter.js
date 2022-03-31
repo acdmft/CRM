@@ -34,14 +34,10 @@ router.post("/add", isLoggedIn, async (req, res) => {
     contact = await Contact.create({
       userId: req.data.id, ...req.body
     });
-  } catch (err) {
-    return res.status(401).json({message: err});
-  }
-  // add contact in user contacts 
-  try {
+    // add contact in user contacts 
     await User.findOneAndUpdate({_id: req.data.id}, {$push: { contacts: contact.id }});
   } catch (err) {
-    return res.json(401).json({message: err});
+    return res.status(401).json({message: err});
   }
   res.status(201).json({message: "Contact added", data: contact});
 });
@@ -54,6 +50,16 @@ router.put("/upd/:id", isLoggedIn, async (req, res) => {
     return res.json({message: "Contact updated"});
   }
   res.json({message: "Contact updated"});
+});
+// DELETE A CONTACT 
+router.delete("/del/:id", isLoggedIn, async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
+    await User.findByIdAndUpdate(req.data.id, { "$pull": {"contacts": req.params.id}});
+  } catch (err) {
+    return res.status(400).json({message: err});
+  }
+  res.json({message: "Contact was removed"});
 });
 
 module.exports = router;
