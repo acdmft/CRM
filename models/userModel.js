@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLenght: 6,
   },
-  contacts: [{ type: mongoose.Types.ObjectId, ref: "User" }] 
+  contacts: [{ type: mongoose.Types.ObjectId, ref: "Contact" }] 
 
 });
 

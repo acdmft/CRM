@@ -20,7 +20,6 @@ router.post("/", async (req, res) => {
     await User.create({
       email: req.body.email,
       password: hashedPassword,
-      contacts: req.body.contacts,
     });
   } catch (err) {
     return res.status(400).json({ message: err });
