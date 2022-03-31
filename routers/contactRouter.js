@@ -1,7 +1,11 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const secret = process.env.SERVER_CODE;
+
+app.use(cookieParser());
 
 router.get("/", async (req, res) => {
   let data;
