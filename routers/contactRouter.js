@@ -1,25 +1,29 @@
 const express = require("express");
-const app = express();
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
+const User = require("../models/userModel");
+
 const secret = process.env.SERVER_CODE;
 
-app.use(cookieParser());
 
-router.get("/", async (req, res) => {
+// MIDDLEWARE 
+function isLoggedIn(req, res, next) {
   let data;
   try {
     data = jwt.verify(req.cookies.jwt, secret);
   } catch (err) {
     return res.status(401).json({
-      message: "Your token is not valid",
+      message: "You are not logged in",
     });
   }
-  res.json({
-    message: "Your request is accepted",
-    data,
-  });
+  req.data = data;
+  next();
+}
+
+router.get("/", isLoggedIn, async (req, res) => {
+  const user = await User.findById(req.data.id).populate("contacts");
+
+  res.json({data: user.contacts, nb: user.contacts.length});
 });
 
 module.exports = router;
