@@ -11,7 +11,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLenght: 6,
   },
-  contacts: [{ type: mongoose.Types.ObjectId, ref: "Contact" }] 
+  contacts: [{ type: mongoose.Types.ObjectId, ref: "Contact" }],
+  isAdmin: {
+    type: String,
+    default: false
+  } 
 
 });
 

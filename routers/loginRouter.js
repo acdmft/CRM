@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
     });
   }
   //create token
-  const token = jwt.sign({ id: user._id }, secret);
+  const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, secret);
   // put token in the cookie 
   res.cookie("jwt", token, { httpOnly: true, secure: false });
   // send cookie to the client 

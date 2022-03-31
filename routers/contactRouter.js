@@ -7,20 +7,8 @@ const Contact = require("../models/contactModel");
 
 const secret = process.env.SERVER_CODE;
 
-
 // MIDDLEWARE 
-function isLoggedIn(req, res, next) {
-  let data;
-  try {
-    data = jwt.verify(req.cookies.jwt, secret);
-  } catch (err) {
-    return res.status(401).json({
-      message: "You are not logged in",
-    });
-  }
-  req.data = data;
-  next();
-}
+const isLoggedIn = require("../middlewares/isLogged");
 
 // GET LIST OF USER'S CONTACTS WITH QUERY PARAMS
 router.get("/", isLoggedIn, async (req, res) => {
