@@ -22,10 +22,16 @@ function isLoggedIn(req, res, next) {
   next();
 }
 
-// GET LIST OF USER'S CONTACTS
+// GET LIST OF USER'S CONTACTS WITH QUERY PARAMS
 router.get("/", isLoggedIn, async (req, res) => {
-  const user = await User.findById(req.data.id).populate("contacts");
-  res.json({data: user.contacts, nb: user.contacts.length});
+  let queryKeys = Object.keys(req.query);
+  if (queryKeys.length === 0) {
+    const user = await User.findById(req.data.id).populate("contacts");
+    console.log(typeof user.contacts)
+    return res.json({data: user.contacts, nb: user.contacts.length});
+  } 
+  const contacts = await Contact.find({userId: req.data.id, ...req.query}).setOptions({ sanitizeFilter: true });
+  return res.json({data: contacts, nb: contacts.length});
 });
 // ADD A CONTACT 
 router.post("/add", isLoggedIn, async (req, res) => {
@@ -61,5 +67,6 @@ router.delete("/del/:id", isLoggedIn, async (req, res) => {
   }
   res.json({message: "Contact was removed"});
 });
+
 
 module.exports = router;
