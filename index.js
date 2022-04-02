@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const loginRouter = require("./routers/loginRouter");
 const registerRouter = require("./routers/registerRouter");
 const contactRouter = require("./routers/contactRouter");
+const usersRouter = require("./routers/usersRouter");
 
 // MIDDLEWARES 
 app.use(express.json());
@@ -28,6 +29,7 @@ mongoose
 app.use("/login", loginRouter);
 app.use("/register", registerRouter); 
 app.use("/contacts", contactRouter);
+app.use("/users", usersRouter);
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");

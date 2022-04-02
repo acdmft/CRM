@@ -3,13 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SERVER_CODE;
-const cookieParser = require("cookie-parser");
 // USER MODEL 
 const User = require("../models/userModel");
-
-const app = express();
-app.use(express.json());
-app.use(cookieParser());
 
 router.get("/", (req, res) => {
   res.json({message: "login router"});

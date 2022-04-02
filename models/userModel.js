@@ -15,8 +15,8 @@ const userSchema = new mongoose.Schema({
   isAdmin: {
     type: String,
     default: false
-  } 
-
+  },
+  lastRequest: Date
 });
 
 const User = mongoose.model("User", userSchema);

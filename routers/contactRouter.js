@@ -9,20 +9,20 @@ const secret = process.env.SERVER_CODE;
 
 // MIDDLEWARE 
 const isLoggedIn = require("../middlewares/isLogged");
+const reqDate = require("../middlewares/reqDate");
 
 // GET LIST OF USER'S CONTACTS WITH QUERY PARAMS
-router.get("/", isLoggedIn, async (req, res) => {
+router.get("/", isLoggedIn, reqDate, async (req, res) => {
   let queryKeys = Object.keys(req.query);
   if (queryKeys.length === 0) {
     const user = await User.findById(req.data.id).populate("contacts");
-    console.log(typeof user.contacts)
     return res.json({data: user.contacts, nb: user.contacts.length});
   } 
   const contacts = await Contact.find({userId: req.data.id, ...req.query}).setOptions({ sanitizeFilter: true });
   return res.json({data: contacts, nb: contacts.length});
 });
 // ADD A CONTACT 
-router.post("/add", isLoggedIn, async (req, res) => {
+router.post("/add", isLoggedIn, reqDate, async (req, res) => {
   let contact;
   try {
     contact = await Contact.create({
@@ -37,7 +37,7 @@ router.post("/add", isLoggedIn, async (req, res) => {
 });
 
 // UPDATE A CONTACT WITH PUT 
-router.put("/upd/:id", isLoggedIn, async (req, res) => {
+router.put("/upd/:id", isLoggedIn, reqDate, async (req, res) => {
   try {
     await Contact.findByIdAndUpdate(req.params.id, req.body);
   } catch (err) {
@@ -46,7 +46,7 @@ router.put("/upd/:id", isLoggedIn, async (req, res) => {
   res.json({message: "Contact updated"});
 });
 // DELETE A CONTACT 
-router.delete("/del/:id", isLoggedIn, async (req, res) => {
+router.delete("/del/:id", isLoggedIn, reqDate, async (req, res) => {
   try {
     await Contact.findByIdAndDelete(req.params.id);
     await User.findByIdAndUpdate(req.data.id, { "$pull": {"contacts": req.params.id}});
