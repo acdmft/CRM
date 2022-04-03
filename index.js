@@ -11,6 +11,8 @@ const loginRouter = require("./routers/loginRouter");
 const registerRouter = require("./routers/registerRouter");
 const contactRouter = require("./routers/contactRouter");
 const usersRouter = require("./routers/usersRouter");
+const requestsRouter = require("./routers/requestsRouter");
+
 
 // MIDDLEWARES 
 app.use(express.json());
@@ -30,6 +32,7 @@ app.use("/login", loginRouter);
 app.use("/register", registerRouter); 
 app.use("/contacts", contactRouter);
 app.use("/users", usersRouter);
+app.use("/requests", requestsRouter);
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");

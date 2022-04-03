@@ -10,12 +10,12 @@ const isAdmin = require("../middlewares/isAdmin");
 
 const secret = process.env.SERVER_CODE;
 
-router.get("/", (req, res) => {
+router.get("/", isAdmin, (req, res) => {
   res.json({ message: "register router" });
 });
 
 // POST A USER
-router.post("/", isAdmin, async (req, res) => {
+router.post("/",  async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
   try {

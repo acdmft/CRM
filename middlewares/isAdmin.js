@@ -1,5 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
 
 function isAdmin(req, res, next) {
   let data = jwt.verify(req.cookies.jwt, process.env.SERVER_CODE);
