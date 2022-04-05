@@ -12,7 +12,8 @@ const registerRouter = require("./routers/registerRouter");
 const contactRouter = require("./routers/contactRouter");
 const usersRouter = require("./routers/usersRouter");
 const requestsRouter = require("./routers/requestsRouter");
-
+// CONFIG VARS
+const {MONGO_URI, PORT} = process.env;
 
 // MIDDLEWARES 
 app.use(express.json());
@@ -20,7 +21,7 @@ app.use(cookieParser());
 // MONGODB
 const mongoose = require("mongoose");
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(MONGO_URI, {
     useNewUrlParser: true,
   })
   .then(() => {
@@ -33,10 +34,14 @@ app.use("/register", registerRouter);
 app.use("/contacts", contactRouter);
 app.use("/users", usersRouter);
 app.use("/requests", requestsRouter);
+// HOME PAGE 
+app.get("/", (_req, res) => {
+  res.send("Home page");
+});
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");
   res.json("You are logged out");
 });
 
-app.listen(8001, () => console.log("Listen port 8001..."));
+app.listen(PORT, () => console.log(`Listen port ${PORT}...`));
